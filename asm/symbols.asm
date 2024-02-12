@@ -21,33 +21,17 @@
 
 .headersize 0x7FFFF400
 .org 0x80003140
-.importobj "build/dma.o"
+.importobj "build/dma.o" //overwrites a leo function for the disk drive which is unused as far as i know
 
 .org 0x80000524 //dma func is at 802405F0
 //802405F0 a0 = ram addr destination, a1 = rom addr, a2 = size
 LUI a0, 0x0100
 ORI a0, a0, 0x0000
-LUI a1, 0x8040 //payload hardcoded to start at 0x80400000...dont move it
+LI a1, PAYLOAD_START
 LI a2, PAYLOAD_END
 JAL dma_copy
 SUBU a2, a2, a1
 J hookedBootCode
 NOP
 
-
-.headersize 0x80400000 - 0x1000000
-.org 0x80400000
-PAYLOAD_START:
-hookedBootCode:
-LUI t9, 0x8024
-ADDIU t9, t9, 0xDA20
-JALR t9, ra
-LW a0, 0x0020 (sp)
-LW ra, 0x0014 (sp)
-JR ra
-ADDIU sp, sp, 0x20
-
-.importobj "build/test.o"
-.align 8
-
-PAYLOAD_END:
+.include "asm/object_files.asm"

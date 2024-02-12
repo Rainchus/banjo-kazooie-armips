@@ -36,6 +36,6 @@ u32 osPiGetStatus(void) {
 }
 
 void dma_copy(void* romAddr, void* ramAddr, u32 dmaSize) {
-    osPiRawStartDma(OS_READ, romAddr, ramAddr, dmaSize);
+    osPiRawStartDma(OS_READ, (u32)romAddr, ramAddr, dmaSize);
     while(osPiGetStatus() & PI_STATUS_DMA_BUSY);
 }
