@@ -9,7 +9,6 @@
 .definelabel func_80254008, 0x80254008
 .definelabel D_8000E800, 0x8000E800
 .definelabel func_802405f0, 0x802405f0
-.definelabel rarezip_uncompress, 0x8023E0C4
 .definelabel D_8027BF2C, 0x8027BF2C
 .definelabel D_8027BF30, 0x8027BF30
 .definelabel D_8002D500, 0x8002D500
@@ -18,10 +17,15 @@
 .definelabel wp, 0x8000728C
 .definelabel func_800005c0, 0x800005C0
 .definelabel osPiRawStartDma, 0x80002000
+.definelabel D_8027BF00, 0x8027BF00
+.definelabel rarezip_uncompress, 0x8023E0A0
+.definelabel _rarezip_uncompress, 0x8023E0F0
+
 
 .headersize 0x7FFFF400
 .org 0x80003140
 .importobj "build/dma.o" //overwrites a leo function for the disk drive which is unused as far as i know
+
 
 .org 0x80000524 //dma func is at 802405F0
 //802405F0 a0 = ram addr destination, a1 = rom addr, a2 = size
