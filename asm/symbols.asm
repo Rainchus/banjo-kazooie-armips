@@ -27,16 +27,17 @@
 //802405F0 a0 = ram addr destination, a1 = rom addr, a2 = size
 LUI a0, 0x0100
 ORI a0, a0, 0x0000
-LUI a1, 0x8040
-ORI a1, a1, 0x0000 //expansion pak ram addr
-
+LUI a1, 0x8040 //payload hardcoded to start at 0x80400000...dont move it
+LI a2, PAYLOAD_END
 JAL dma_copy
-ORI a2, r0, 0x1000 //hardcoded size, fix later
+SUBU a2, a2, a1
 J hookedBootCode
 NOP
 
+
 .headersize 0x80400000 - 0x1000000
 .org 0x80400000
+PAYLOAD_START:
 hookedBootCode:
 LUI t9, 0x8024
 ADDIU t9, t9, 0xDA20
@@ -47,8 +48,6 @@ JR ra
 ADDIU sp, sp, 0x20
 
 .importobj "build/test.o"
+.align 8
 
-//.headersize 0x80001BD0 - 0x27D0
-//.org 0x80001BF0
-//JAL overlay_load
-//SW t4, 0x000C (v0)
+PAYLOAD_END:
